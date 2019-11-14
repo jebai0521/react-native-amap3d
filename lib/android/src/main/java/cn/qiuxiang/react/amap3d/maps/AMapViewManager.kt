@@ -16,6 +16,7 @@ import com.facebook.react.uimanager.annotations.ReactProp
 internal class AMapViewManager : ViewGroupManager<AMapView>() {
     companion object {
         val ANIMATE_TO = 1
+        val ANIMATE_TO_REGION = 2
     }
 
     override fun getName(): String {
@@ -32,12 +33,13 @@ internal class AMapViewManager : ViewGroupManager<AMapView>() {
     }
 
     override fun getCommandsMap(): Map<String, Int> {
-        return mapOf("animateTo" to ANIMATE_TO)
+        return MapBuilder.of("animateTo",  ANIMATE_TO, "animateToRegion", ANIMATE_TO_REGION)
     }
 
     override fun receiveCommand(overlay: AMapView, commandId: Int, args: ReadableArray?) {
         when (commandId) {
             ANIMATE_TO -> overlay.animateTo(args)
+            ANIMATE_TO_REGION -> overlay.animateToRegion(args)
         }
     }
 
@@ -52,7 +54,7 @@ internal class AMapViewManager : ViewGroupManager<AMapView>() {
     }
 
     override fun getExportedCustomDirectEventTypeConstants(): Map<String, Any> {
-        return MapBuilder.of(
+        var map =  MapBuilder.of(
                 "onPress", MapBuilder.of("registrationName", "onPress"),
                 "onLongPress", MapBuilder.of("registrationName", "onLongPress"),
                 "onAnimateCancel", MapBuilder.of("registrationName", "onAnimateCancel"),
@@ -61,6 +63,10 @@ internal class AMapViewManager : ViewGroupManager<AMapView>() {
                 "onStatusChangeComplete", MapBuilder.of("registrationName", "onStatusChangeComplete"),
                 "onLocation", MapBuilder.of("registrationName", "onLocation")
         )
+
+        map.put("onMapReady", MapBuilder.of("registrationName", "onMapReady"));
+
+        return  map;
     }
 
     @ReactProp(name = "locationEnabled")
@@ -174,6 +180,11 @@ internal class AMapViewManager : ViewGroupManager<AMapView>() {
     @ReactProp(name = "region")
     fun setRegion(view: AMapView, region: ReadableMap) {
         view.setRegion(region)
+    }
+
+    @ReactProp(name = "initialRegion")
+    fun setInitialRegion(view: AMapView, initialRegion: ReadableMap) {
+        view.setRegion(initialRegion)
     }
 
     @ReactProp(name = "limitRegion")

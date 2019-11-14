@@ -58,7 +58,9 @@ class AMapView(context: Context) : TextureMapView(context) {
         map.setOnMarkerClickListener { marker ->
             markers[marker.id]?.let {
                 it.active = true
-                emit(it.id, "onPress")
+                val map = Arguments.createMap()
+                map.putMap("coordinate", it.position?.toWritableMap())
+                emit(it.id, "onPress", map)
             }
             true
         }
@@ -104,6 +106,8 @@ class AMapView(context: Context) : TextureMapView(context) {
         }
 
         map.setInfoWindowAdapter(AMapInfoWindowAdapter(context, markers))
+
+        map.setOnMapLoadedListener { emit(id, "onMapReady") }
     }
 
     fun emitCameraChangeEvent(event: String, position: CameraPosition?) {
@@ -189,6 +193,15 @@ class AMapView(context: Context) : TextureMapView(context) {
         val cameraUpdate = CameraUpdateFactory.newCameraPosition(
                 CameraPosition(coordinate, zoomLevel, tilt, rotation))
         map.animateCamera(cameraUpdate, duration.toLong(), animateCallback)
+    }
+
+    fun animateToRegion(args: ReadableArray?) {
+        val target = args?.getMap(0)!!
+        var duration = 0;
+        if (args.size() >= 2 ) {
+            duration = args.getInt(1);
+        }
+        map.moveCamera(CameraUpdateFactory.newLatLngBounds(target.toLatLngBounds(), duration))
     }
 
     fun setRegion(region: ReadableMap) {
