@@ -37,11 +37,15 @@ class AMapView(context: Context) : TextureMapView(context) {
                 marker.active = false
             }
 
-            emit(id, "onPress", latLng.toWritableMap())
+            val map = Arguments.createMap()
+            map.putMap("coordinate", latLng.toWritableMap())
+            emit(id, "onPress", map)
         }
 
         map.setOnMapLongClickListener { latLng ->
-            emit(id, "onLongPress", latLng.toWritableMap())
+            val map = Arguments.createMap()
+            map.putMap("coordinate", latLng.toWritableMap())
+            emit(id, "onLongPress", map)
         }
 
         map.setOnMyLocationChangeListener { location ->
@@ -75,7 +79,9 @@ class AMapView(context: Context) : TextureMapView(context) {
             }
 
             override fun onMarkerDragEnd(marker: Marker) {
-                emit(markers[marker.id]?.id, "onDragEnd", marker.position.toWritableMap())
+                val map = Arguments.createMap()
+                map.putMap("coordinate", marker.position?.toWritableMap())
+                emit(markers[marker.id]?.id, "onDragEnd", map)
             }
         })
 

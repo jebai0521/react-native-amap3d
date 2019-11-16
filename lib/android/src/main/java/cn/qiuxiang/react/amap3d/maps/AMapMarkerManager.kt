@@ -65,8 +65,9 @@ internal class AMapMarkerManager : ViewGroupManager<AMapMarker>() {
     }
 
     @ReactProp(name = "description")
-    fun setSnippet(marker: AMapMarker, description: String) {
-        marker.snippet = description
+    fun setSnippet(marker: AMapMarker, description: String?) {
+
+        description?.let { marker.snippet = description }
     }
 
     @ReactProp(name = "coordinate")
