@@ -53,6 +53,11 @@ class AMapMarker(context: Context) : ReactViewGroup(context), AMapOverlay {
             marker?.title = value
         }
 
+    var identifier = ""
+        set(value) {
+            field = value
+        }
+
     var snippet = ""
         set(value) {
             field = value

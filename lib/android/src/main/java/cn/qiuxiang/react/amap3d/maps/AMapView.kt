@@ -64,6 +64,7 @@ class AMapView(context: Context) : TextureMapView(context) {
                 it.active = true
                 val map = Arguments.createMap()
                 map.putMap("coordinate", it.position?.toWritableMap())
+                map.putString("id", it.identifier)
                 emit(it.id, "onPress", map)
             }
             true

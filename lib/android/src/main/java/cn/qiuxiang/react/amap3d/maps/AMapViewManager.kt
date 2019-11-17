@@ -59,8 +59,8 @@ internal class AMapViewManager : ViewGroupManager<AMapView>() {
                 "onLongPress", MapBuilder.of("registrationName", "onLongPress"),
                 "onAnimateCancel", MapBuilder.of("registrationName", "onAnimateCancel"),
                 "onAnimateFinish", MapBuilder.of("registrationName", "onAnimateFinish"),
-                "onStatusChange", MapBuilder.of("registrationName", "onStatusChange"),
-                "onStatusChangeComplete", MapBuilder.of("registrationName", "onStatusChangeComplete"),
+                "onStatusChange", MapBuilder.of("registrationName", "onRegionChange"),
+                "onStatusChangeComplete", MapBuilder.of("registrationName", "onRegionChangeComplete"),
                 "onLocation", MapBuilder.of("registrationName", "onLocation")
         )
 

@@ -60,14 +60,14 @@ internal class AMapMarkerManager : ViewGroupManager<AMapMarker>() {
     }
 
     @ReactProp(name = "title")
-    fun setTitle(marker: AMapMarker, title: String) {
-        marker.title = title
+    fun setTitle(marker: AMapMarker, title: String?) {
+        title?.let { marker.title = it }
     }
 
     @ReactProp(name = "description")
     fun setSnippet(marker: AMapMarker, description: String?) {
 
-        description?.let { marker.snippet = description }
+        description?.let { marker.snippet = it }
     }
 
     @ReactProp(name = "coordinate")
@@ -105,7 +105,7 @@ internal class AMapMarkerManager : ViewGroupManager<AMapMarker>() {
         marker.active = active
     }
 
-    @ReactProp(name = "color")
+    @ReactProp(name = "pinColor")
     fun setIcon(marker: AMapMarker, icon: String) {
         marker.setIconColor(icon)
     }
@@ -123,5 +123,10 @@ internal class AMapMarkerManager : ViewGroupManager<AMapMarker>() {
     @ReactProp(name = "anchor")
     fun setAnchor(view: AMapMarker, coordinate: ReadableMap) {
         view.setAnchor(coordinate.getDouble("x"), coordinate.getDouble("y"))
+    }
+
+    @ReactProp(name = "identifier")
+    fun setIdentifier(view: AMapMarker, identifier: String ) {
+        view.identifier = identifier;
     }
 }
