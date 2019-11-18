@@ -129,7 +129,12 @@ class AMapView(context: Context) : TextureMapView(context) {
                 data.putDouble("latitudeDelta", Math.abs(southwest.latitude - northeast.latitude))
                 data.putDouble("longitudeDelta", Math.abs(southwest.longitude - northeast.longitude))
             }
-            emit(id, event, data)
+
+            val map = Arguments.createMap()
+            map.putMap("region", data)
+            map.putBoolean("continuous", true)
+
+            emit(id, "onChange", map)
         }
     }
 
